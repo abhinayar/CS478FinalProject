@@ -18,9 +18,9 @@
         Try.
         <br>
         <br>
-        Don't get too close the guards.<br>
-        Don't let your energy run ou- use energy balls.<br>
-        You will slow down and your field of view will narrow<br>
+        Don't get too close the guards or they will see you.<br>
+        Don't let your energy run out - use the energy balls.<br>
+        You will slow and your field of view will narrow as you lose energy.<br>
         <br>
         <br>
         Good luck.<br>
@@ -30,13 +30,12 @@
     <div class="energy">Energy: <span class="energy-level">200</span></div>
     <div class="danger">Warning: You are in danger.</div>
     <div class="gameInfo"></div>
-    
+    <audio loop autoplay id="ambience"><source src="./public/sounds/ambience.mp3" type="audio/mpeg"></audio>
     <script src="public/js/jQuery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js'></script>
     <script src="public/js/pointerLock.js"></script>
-    <script src="ex/utils.js"></script>
-    <script src="ex/character.js"></script>
-    <!-- Custom Shader -->
+    <script src="public/js/anaglyph.js"></script>
+    <!-- Custom Shaders -->
     <script type="x-shader/x-vertex" id="vertexShader">
       void main() 
       {
@@ -82,6 +81,32 @@
           vec3 rgb = vec3(r, g, b);
 
           gl_FragColor = vec4(rgb, vOpacity);
+      }
+    </script>
+    <!-- Shader Glow -->
+    <script id="vertexShader3" type="x-shader/x-vertex">
+      uniform vec3 viewVector;
+      uniform float c;
+      uniform float p;
+      varying float intensity;
+      void main() 
+      {
+          vec3 vNormal = normalize( normalMatrix * normal );
+          vec3 vNormel = normalize( normalMatrix * viewVector );
+          intensity = pow( c - dot(vNormal, vNormel), p );
+
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      }
+    </script>
+
+    <!-- fragment shader a.k.a. pixel shader -->
+    <script id="fragmentShader3" type="x-shader/x-vertex"> 
+      uniform vec3 glowColor;
+      varying float intensity;
+      void main() 
+      {
+          vec3 glow = glowColor * intensity;
+          gl_FragColor = vec4( glow, 0.2 );
       }
     </script>
     <!-- Main -->

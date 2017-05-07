@@ -18,6 +18,7 @@ $(document).ready(function(){
   var player;
   var timeElapsed;
   var jewel;
+  var energy = 200;
   
   //enemies
   var enemies = [];
@@ -26,7 +27,7 @@ $(document).ready(function(){
   
   //collision stuff
   var playerColDist = 20;
-  var enemyColDist = 45;
+  var enemyColDist = 20;
   //array of collidable objects for collision detection
   var collideObjects = [];
   var energyObjects = [];
@@ -104,26 +105,26 @@ $(document).ready(function(){
   function initWorld() {
     //Maze is grid of cubes, 2D array rep.
     var map = [
-      [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, ],
+      [99, 0, 1, 0, 1, 0, 1, 2, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, ],
       [0, 1, 2, 0, 0, 0, 1, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, ],
-      [3, 1, 0, 0, 3, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 3, ],
-      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 3, 0, 0, 0, 0, 0, ],
+      [3, 1, 0, 0, 3, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 3, ],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 3, 0, 0, 0, 2, 0, ],
       [0, 1, 1, 0, 0, 0, 0, 2, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 3, ],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, ],
-      [1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, ],
+      [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, ],
+      [1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 2, 0, 0, ],
       [0, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, ],
-      [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+      [0, 3, 0, 0, 1, 1, 1, 1, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
       [0, 0, 0, 2, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
       [0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, ],
       [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, ],
-      [0, 0, 0, 1, 0, 0, 0, 0, 3, 1, 1, 0, 1, 3, 1, 0, 0, 1, 1, 1, ],
-      [3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0, 0, 0, ],
-      [0, 2, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, ],
+      [0, 0, 0, 1, 3, 0, 0, 0, 3, 1, 1, 0, 1, 3, 1, 0, 0, 1, 1, 1, ],
+      [3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0, 1, 0, 2, 0, 0, 0, ],
+      [0, 2, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, ],
       [1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 3, 0, 0, ],
       [0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 3, 0, 0, 1, 0, 0, ],
       [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, ],
-      [0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, ],
-      [0, 3, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 99, ]
+      [0, 2, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, ],
+      [0, 3, 1, 1, 1, 0, 0, 3, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, ]
     ];
   
     /*
@@ -255,7 +256,13 @@ $(document).ready(function(){
       checkJewelCollision();
     }
     
-    renderer.render(scene, camera);
+    if (energy < 25) {
+      var effect = new THREE.AnaglyphEffect( renderer );
+      effect.setSize(window.innerWidth, window.innerHeight);
+      effect.render(scene, camera);
+    } else {
+      renderer.render(scene, camera);
+    }
   }  
   //!!!!!!!!
   //!!!!!!!!
@@ -316,7 +323,7 @@ $(document).ready(function(){
   }
   
   function movePlayer(timeElapsed) {
-    var energy = parseInt($(".energy-level").text());
+    energy = parseInt($(".energy-level").text());
     var playerSpeedAdj = playerSpeed;// * (energy/200);
     
     var aspectAdjust = energy;
@@ -469,11 +476,13 @@ $(document).ready(function(){
   
   }
   
+  var chaseAudio = new Audio('./public/sounds/alert.mp3');
   function makeChase(i) {
     var enemy = enemies[i].obj;
 
     if (enemy.position.distanceTo(controls.getObject().position) < 300) {
       $(".danger").show().fadeOut("400");
+      chaseAudio.play();
       
       var new_texture = new THREE.TextureLoader().load( './public/textures/enemy.jpg' );
       enemy.material = new THREE.MeshBasicMaterial( { map: new_texture } );
@@ -492,17 +501,20 @@ $(document).ready(function(){
     }
   }
   
+  var energySound = new Audio('./public/sounds/energyCollected.mp3');
   function checkEnergyCollision() {
     var playerPos = controls.getObject().position;
     for (var i = 0; i < energyObjects.length; i++) {
-      var energyPos = energyObjects[i].position;
+      var energyPos = energyObjects[i].energyBall.position;
             
       if (Math.abs(playerPos.x - energyPos.x) < 50 && Math.abs(playerPos.z - energyPos.z) < 50) {
-        if (collidedEnergyObjects.indexOf(energyObjects[i].name) == -1) {
-          scene.remove(energyObjects[i]);
+        if (collidedEnergyObjects.indexOf(energyObjects[i].energyBall.name) == -1) {
+          scene.remove(energyObjects[i].energyBall);
+          scene.remove(energyObjects[i].glow);
           addEnergy(25);
           console.log("truuuu");
-          collidedEnergyObjects.push(energyObjects[i].name);
+          collidedEnergyObjects.push(energyObjects[i].energyBall.name);
+          energySound.play();
         }
       }
     }
@@ -520,12 +532,36 @@ $(document).ready(function(){
     energy.position.set(x, 10, z);
     energy.name = "energy" + Math.random()*1987;
     
-    energyObjects.push(energy);
+    //Make it glow
+    var glowMat = new THREE.ShaderMaterial({
+	    uniforms: { 
+			"c":   { type: "f", value: 1.0 },
+			"p":   { type: "f", value: 1.4 },
+			glowColor: { type: "c", value: new THREE.Color(0xff0000) },
+			viewVector: { type: "v3", value: camera.position }
+		},
+		vertexShader:   document.getElementById( 'vertexShader3' ).textContent,
+		fragmentShader: document.getElementById( 'fragmentShader3' ).textContent,
+		side: THREE.FrontSide,
+		blending: THREE.AdditiveBlending,
+		transparent: true
+	});
+    var glow = new THREE.Mesh(energyGeom.clone(), glowMat.clone());
+    glow.position.set(x, 10, z);
+    glow.scale.multiplyScalar(1.2);
+    scene.add(glow);
+    
+    var energyObj = {
+      energyBall : energy,
+      glow : glow
+    }
+    
+    energyObjects.push(energyObj);
   }
   
   function rotateEnergyObjects() {
     for (var i = 0; i < energyObjects.length; i++) {
-      var energy = energyObjects[i];
+      var energy = energyObjects[i].energyBall;
       energy.rotation.x = (23.5/180)*Math.PI;
       energy.rotation.z = Date.now() * 0.001;
     }
@@ -557,6 +593,7 @@ $(document).ready(function(){
     jewel.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
   }
   
+  var winAudio = new Audio('./public/sounds/win.mp3');
   function checkJewelCollision() {
     var playerPos = controls.getObject().position;
     var jewelPos = jewelObjects[0].position;
@@ -566,6 +603,8 @@ $(document).ready(function(){
       controls.enabled = false;
       $("#blocker").empty().show();
       $(".gameInfo").show().html("Congratulations.<br>That was pointless.<br><br>But hey- you win.");
+      
+      winAudio.play();
     }
   }
   
