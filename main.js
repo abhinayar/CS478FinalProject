@@ -619,7 +619,9 @@ $(document).ready(function(){
       if (energy > 0) {
         $(".energy-level").text(energy - 1);
       } else if (energy = 0) {
-        //call end
+        controls.enabled = false;
+        $("#instructions").html("Game Over. Suck less next time.<br>Refresh to try again.")
+        $("#blocker").show();
       }
     }
   }, 600);
