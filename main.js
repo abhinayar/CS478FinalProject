@@ -27,7 +27,7 @@ $(document).ready(function(){
   
   //collision stuff
   var playerColDist = 20;
-  var enemyColDist = 20;
+  var enemyColDist = 25;
   //array of collidable objects for collision detection
   var collideObjects = [];
   var energyObjects = [];
