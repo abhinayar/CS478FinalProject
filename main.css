@@ -1,0 +1,74 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Courier New;
+    line-height: 26px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#container {
+    box-sizing: border-box;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+#blocker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#instructions {
+    width: 100%;
+    height: 100%;
+font-size: 30px;
+font-family: 'Courier New';
+    display: -webkit-box;
+    display: -moz-box;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+  line-height: 1.2em;
+}
+
+.energy, .danger {
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  font-family: 'Courier New';
+  font-size: 22px;
+  color: #fff;
+} .energy span {
+  font-weight: bold;
+}
+
+.gameInfo {
+  width: 100%;
+  height: 100%;
+  background: rgba(10,0,0,0.1);
+  font-size: 42px;
+  font-family: inherit;
+  color: inherit;
+  text-align: center;
+  padding-top: 20%;
+  position: absolute;
+  line-height: 1.2em;
+}
+
+.danger {
+  font-weight: bold;
+  left: 40px;
+  right: auto;
+}
